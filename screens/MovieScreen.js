@@ -1,5 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useLayoutEffect, useState, useContext } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Calender from '../components/Calender';
 import moment from 'moment';
@@ -7,10 +7,11 @@ import { Place } from '../PlaceContext';
 
 const MovieScreen = () => {
     const navigation = useNavigation();
-    const { selectedCity, setSelectedCity } = useState(Place);
+    const { selectedCity, setSelectedCity } = useContext(Place);
     const route = useRoute();
     const today = moment().format("YYYY-MM-DD");
     const [selectedDate, setSelectedDate] = useState(today);
+    const [mall, setMall] = useState([]);
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: route.params.title,
@@ -690,15 +691,43 @@ const MovieScreen = () => {
     ];
     return (
         <View>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ marginLeft: 10 }}>
                 <Calender selected={selectedDate} onSelectDate={setSelectedDate} />
             </ScrollView>
 
             {malls
                 .filter((item) => item.place === selectedCity)
                 .map((item) => item.galleria.map((multiplex, index) => (
-                    <Pressable>
-                        <Text>{multiplex.name}</Text>
+                    <Pressable
+                        onPress={() => setMall(multiplex.name)}
+                        style={{
+                            marginHorizontal: 20,
+                            marginVertical: 10,
+                        }}>
+                        <Text style={{
+                            fontSize: 15, fontWeight: "500"
+                        }}>{multiplex.name}</Text>
+                        {mall.includes(multiplex.name) ? (
+                            <FlatList numColumns={3} data={multiplex.showtimes} renderItem={({ item }) => (
+                                <Pressable style={{
+                                    borderColor: "green",
+                                    borderWidth: 0.7,
+                                    padding: 5,
+                                    width: 80,
+                                    borderRadius: 5,
+                                    margin: 8,
+                                }}>
+                                    <Text style={{
+                                        textAlign: "center",
+                                        color: "green",
+                                        fontSize: 15,
+                                        fontWeight: "500",
+                                    }}>{item}</Text>
+                                </Pressable>
+                            )} />
+                        ) : (
+                            null
+                        )}
                     </Pressable>
                 )))}
 
