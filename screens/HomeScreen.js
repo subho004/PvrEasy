@@ -402,6 +402,30 @@ const HomeScreen = () => {
             language: "Drama",
         },
     ];
+    const [sortedData, setSortedData] = useState(data);
+    const applyFilter = (filter) => {
+        setModalVisible(false);
+        switch (filter) {
+            case "English":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+            case "Kannada":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+            case "Telegu":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+            case "Hindi":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+            case "Tamil":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+            case "Malayalam":
+                setSortedData(sortedData.filter((item) => item.original_language === selectedFilter));
+                break;
+        }
+    }
 
     useEffect(() => {
         Animated.loop(
@@ -442,7 +466,7 @@ const HomeScreen = () => {
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: "space-between" }}
                 ListHeaderComponent={Header}
-                data={data}
+                data={sortedData}
                 renderItem={({ item, index }) => (<MovieCard item={item} key={index} />)}
             />
             <Pressable
@@ -464,13 +488,15 @@ const HomeScreen = () => {
                 swipeDirection={['up', 'down']}
                 swipeThreshold={200}
                 footer={<ModalFooter>
-                    <Pressable style={{
-                        paddingRight: 10,
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        marginVertical: 10,
-                        marginBottom: 30
-                    }}>
+                    <Pressable
+                        onPress={() => applyFilter(selectedFilter)}
+                        style={{
+                            paddingRight: 10,
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginVertical: 10,
+                            marginBottom: 30
+                        }}>
                         <Text>Apply</Text>
                     </Pressable>
                 </ModalFooter>
