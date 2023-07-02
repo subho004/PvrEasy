@@ -1,16 +1,19 @@
 import { Animated, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useLayoutEffect, useContext } from "react";
+import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import { Place } from '../PlaceContext';
 import MovieCard from "../components/MovieCard";
 import Header from "../components/Header";
+import { BottomModal, ModalContent, ModalFooter, ModalTitle, SlideAnimation } from "react-native-modals";
 //import { Header } from "react-native/Libraries/NewAppScreen";
+import { Foundation } from '@expo/vector-icons';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
     const { selectedCity, setSelectedCity } = useContext(Place)
     const moveAnimation = new Animated.Value(0);
+    const [modalVisible, setModalVisible] = useState(false)
     const data = [
         {
             adult: false,
@@ -434,7 +437,77 @@ const HomeScreen = () => {
     }, [])
     return (
         <View>
-            <FlatList ListHeaderComponent={Header} data={data} renderItem={({ item }) => (<MovieCard />)} />
+            <FlatList
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: "space-between" }}
+                ListHeaderComponent={Header}
+                data={data}
+                renderItem={({ item, index }) => (<MovieCard item={item} key={index} />)}
+            />
+            <Pressable
+                onPress={() => setModalVisible(!modalVisible)}
+                style={{
+                    position: "absolute",
+                    bottom: 30,
+                    backgroundColor: "#ffc40c",
+                    width: 60,
+                    height: 60,
+                    borderRadius: 30,
+                    right: 20,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                <Foundation name="filter" size={24} color="black" />
+            </Pressable>
+            <BottomModal onBackdropPress={() => setModalVisible(!modalVisible)}
+                swipeDirection={['up', 'down']}
+                swipeThreshold={200}
+                footer={<ModalFooter>
+                    <Pressable style={{
+                        paddingRight: 10,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginVertical: 10,
+                        marginBottom: 30
+                    }}>
+                        <Text>Apply</Text>
+                    </Pressable>
+                </ModalFooter>
+                }
+                modalTitle={<ModalTitle title="Filters" />}
+                modalAnimation={new SlideAnimation({ slideFrom: "bottom" })}
+                visible={modalVisible}
+                onHardwareBackPress={() => setModalVisible(!modalVisible)}
+                onTouchOutside={() => setModalVisible(!modalVisible)}
+            >
+                <ModalContent style={{
+                    width: "100%",
+                    height: 280
+                }}>
+                    <Text style={{
+                        paddingVertical: 5,
+                        fontSize: 15,
+                        fontWeight: "500",
+                        marginTop: 10,
+                    }}>Languages</Text>
+                    {languages.map((item, index) => (
+                        <Pressable>
+                            <Text>{item.language}</Text>
+                        </Pressable>
+                    ))}
+                    <Text style={{
+                        paddingVertical: 5,
+                        fontSize: 15,
+                        fontWeight: "500",
+                        marginTop: 10,
+                    }}>Genres</Text>
+                    {genres.map((item, index) => (
+                        <Pressable>
+                            <Text>{item.language}</Text>
+                        </Pressable>
+                    ))}
+                </ModalContent>
+            </BottomModal>
         </View>
     )
 }

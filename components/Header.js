@@ -33,7 +33,12 @@ const Header = () => {
                             <Text style={{ marginVertical: 5, fontSize: 16, fontWeight: "700" }}>CUSTODY</Text>
                             <Text style={{ fontSize: 15, color: "gray", fontWeight: "500" }}>U.A TELEGU</Text>
                         </View>
-                        <Pressable style={{ backgroundColor: "#ffc40c", padding: 10, borderRadius: 6, marginRight: 10 }}>
+                        <Pressable style={{
+                            backgroundColor: "#ffc40c",
+                            padding: 10,
+                            borderRadius: 6,
+                            marginRight: 10
+                        }}>
                             <Text>BOOK</Text>
                         </Pressable>
                     </View>
