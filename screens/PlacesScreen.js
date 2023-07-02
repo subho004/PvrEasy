@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import { Place } from '../PlaceContext';
 import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const PlacesScreen = () => {
     const navigation = useNavigation();
@@ -69,6 +70,12 @@ const PlacesScreen = () => {
                 "https://images.pexels.com/photos/15351642/pexels-photo-15351642.jpeg?auto=compress&cs=tinysrgb&w=800",
         },
     ];
+    const selectCity = (city) => {
+        setSelectedCity(city);
+        setTimeout(() => {
+            navigation.navigate("HomeScreen")
+        }, 800);
+    }
     return (
         <View>
             <View style={{
@@ -101,7 +108,7 @@ const PlacesScreen = () => {
                 columnWrapperStyle={{ justifyContent: "space-between" }}
                 data={places}
                 renderItem={({ item, index }) => (
-                    <Pressable style={{
+                    <Pressable onPress={() => selectCity(item.place)} style={{
                         marginVertical: 10,
                         marginHorizontal: 20,
                     }}
@@ -111,6 +118,28 @@ const PlacesScreen = () => {
                             style={{ width: 160, height: 100, opacity: 0.8 }}
                             source={{ uri: item.image }}
                         >
+                            {selectedCity === item.place && (
+                                <View style={{
+                                    flex: 1,
+                                    marginLeft: 7,
+                                    marginTop: 7,
+                                    alignContent: "flex-start",
+                                }}>
+                                    <AntDesign name="checkcircle" size={24} color="white" />
+                                </View>
+                            )}
+                            <View style={{
+                                flex: 1,
+                                marginLeft: 10,
+                                marginBottom: 7,
+                                justifyContent: "flex-end",
+                            }}>
+                                <Text style={{
+                                    color: "white",
+                                    fontSize: 15,
+                                    fontWeight: "700",
+                                }}>{item.place}</Text>
+                            </View>
 
                         </ImageBackground>
                     </Pressable>
