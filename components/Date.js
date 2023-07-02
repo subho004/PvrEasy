@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
     },
     day: {
         fontSize: 14,
-        fontWeight: "500,"
+        fontWeight: "500",
     },
     number: {
         fontSize: 14,
-        fontWeight: "500,"
+        fontWeight: "500",
     },
 })
