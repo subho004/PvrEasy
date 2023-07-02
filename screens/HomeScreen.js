@@ -13,7 +13,8 @@ const HomeScreen = () => {
     const navigation = useNavigation();
     const { selectedCity, setSelectedCity } = useContext(Place)
     const moveAnimation = new Animated.Value(0);
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedFilter, setSelectedFilter] = useState();
     const data = [
         {
             adult: false,
@@ -490,22 +491,68 @@ const HomeScreen = () => {
                         fontWeight: "500",
                         marginTop: 10,
                     }}>Languages</Text>
-                    {languages.map((item, index) => (
-                        <Pressable>
-                            <Text>{item.language}</Text>
-                        </Pressable>
-                    ))}
+
+                    <Pressable
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                        }}>
+                        {languages.map((item, index) => (
+                            selectedFilter === item.language ? (
+                                <Pressable
+                                    onPress={() => setSelectedFilter()}
+                                    style={{
+                                        margin: 10,
+                                        backgroundColor: "orange",
+                                        paddingVertical: 5,
+                                        borderRadius: 25,
+                                        paddingHorizontal: 11,
+                                    }}>
+                                    <Text style={{ color: "white", fontWeight: "500" }}>{item.language}</Text>
+                                </Pressable>
+                            ) : (
+                                <Pressable
+                                    onPress={() => setSelectedFilter(item.language)}
+                                    style={{
+                                        margin: 10,
+                                        borderColor: "#C8C8C8",
+                                        borderWidth: 1,
+                                        paddingVertical: 5,
+                                        borderRadius: 25,
+                                        paddingHorizontal: 11,
+                                    }}>
+                                    <Text>{item.language}</Text>
+                                </Pressable>
+                            )
+                        ))}
+                    </Pressable>
+
                     <Text style={{
                         paddingVertical: 5,
                         fontSize: 15,
                         fontWeight: "500",
                         marginTop: 10,
                     }}>Genres</Text>
-                    {genres.map((item, index) => (
-                        <Pressable>
-                            <Text>{item.language}</Text>
-                        </Pressable>
-                    ))}
+                    <Pressable style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                    }}>
+                        {genres.map((item, index) => (
+                            <Pressable style={{
+                                margin: 10,
+                                borderColor: "#C8C8C8",
+                                borderWidth: 1,
+                                paddingVertical: 5,
+                                borderRadius: 25,
+                                paddingHorizontal: 11,
+                            }}>
+                                <Text>{item.language}</Text>
+                            </Pressable>
+                        ))}
+                    </Pressable>
+
                 </ModalContent>
             </BottomModal>
         </View>
