@@ -101,8 +101,16 @@ const TheatreScreen = () => {
                         }}>
                             {row.seats.map((seat, seatIndex) => (
                                 <Pressable
+                                    key={`${rowIndex}-${seatIndex}`}
                                     onPress={() => handleSeatPress(row.row, seat.seat)}
-                                    style={[styles.seat]}>
+                                    style={[styles.seat, selectedSeats.some(
+                                        (selectedSeat) => selectedSeat.row === row.row && selectedSeat.seat === seat.seat
+                                    ) && styles.selectedSeat,
+                                    seat.bookingStatus === "disabled" && styles.bookedSeat
+                                    ]}
+                                    disabled={seat.bookingStatus === "disabled"}
+                                >
+
                                     <Text>{seat.seat}</Text>
                                 </Pressable>
                             ))}
@@ -117,7 +125,7 @@ const TheatreScreen = () => {
         // console.log("row", row);
         // console.log("seat", seat);
 
-        const isSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat === seat);
+        const isSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat);
 
         if (isSelected) {
             setSelectedSeats((prevState) =>
@@ -130,7 +138,19 @@ const TheatreScreen = () => {
             setSelectedSeats((prevState) => [...prevState, { row, seat }])
         }
     };
-    console.log(selectedSeats);
+    //console.log(selectedSeats);
+    const pay = () => {
+        const updatedRows = [...rows];
+        selectedSeats.forEach((seat) => {
+            const rowIndex = updatedRows.findIndex((row) => row.row === seat.row);
+            //console.log("row Index", rowIndex);
+            const seatIndex = updatedRows[rowIndex].seats.findIndex((s) => s.seat === seat.seat);
+            //console.log("seat Index", seatIndex);
+            updatedRows[rowIndex].seats[seatIndex].bookingStatus = "disabled";
+        });
+        setRows(updatedRows);
+        setSelectedSeats([]);
+    }
     return (
         <View style={{
             flex: 1,
@@ -178,6 +198,20 @@ const TheatreScreen = () => {
                     <Text>Booked</Text>
                 </View>
             </View>
+
+            <Pressable
+                onPress={pay}
+                style={{
+                    marginTop: 50,
+                    backgroundColor: "#E0E0E0",
+                    padding: 10,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}>
+                <Text>Selected Seats</Text>
+                <Text>PAY 100</Text>
+            </Pressable>
         </View>
     )
 }
@@ -195,5 +229,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "#C0C0C0",
+    },
+    selectedSeat: {
+        backgroundColor: "#FFD700",
+        borderColor: "transparent",
+    },
+    bookedSeat: {
+        backgroundColor: "#989898",
+        borderColor: "transparent",
     }
 })
