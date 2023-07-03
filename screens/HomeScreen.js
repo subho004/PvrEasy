@@ -435,7 +435,7 @@ const HomeScreen = () => {
                 useNativeDriver: true,
             })
         ).start();
-    }, [])
+    }, [selectedCity])
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => <Text>Hello Name</Text>,
@@ -459,7 +459,7 @@ const HomeScreen = () => {
                 </Pressable>
             )
         })
-    }, [])
+    }, [selectedCity])
     return (
         <View>
             <FlatList

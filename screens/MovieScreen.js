@@ -709,14 +709,21 @@ const MovieScreen = () => {
                         }}>{multiplex.name}</Text>
                         {mall.includes(multiplex.name) ? (
                             <FlatList numColumns={3} data={multiplex.showtimes} renderItem={({ item }) => (
-                                <Pressable style={{
-                                    borderColor: "green",
-                                    borderWidth: 0.7,
-                                    padding: 5,
-                                    width: 80,
-                                    borderRadius: 5,
-                                    margin: 8,
-                                }}>
+                                <Pressable
+                                    onPress={() => navigation.navigate("Theatre", {
+                                        name: route.params.item,
+                                        selectedDate: selectedDate,
+                                        mall: mall,
+                                        showtime: item,
+                                    })}
+                                    style={{
+                                        borderColor: "green",
+                                        borderWidth: 0.7,
+                                        padding: 5,
+                                        width: 80,
+                                        borderRadius: 5,
+                                        margin: 8,
+                                    }}>
                                     <Text style={{
                                         textAlign: "center",
                                         color: "green",

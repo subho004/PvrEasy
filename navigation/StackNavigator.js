@@ -7,6 +7,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import PlacesScreen from '../screens/PlacesScreen';
 import MovieScreen from '../screens/MovieScreen';
+import TheatreScreen from '../screens/TheatreScreen';
 
 const ProfileStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ function HomeStackScreens() {
             <HomeStack.Screen name="HomeScreen" component={HomeScreen} options={{ title: "" }} />
             <HomeStack.Screen name="Places" component={PlacesScreen} />
             <HomeStack.Screen name="Movie" component={MovieScreen} />
+            <HomeStack.Screen name="Theatre" component={TheatreScreen} />
         </HomeStack.Navigator >
     )
 }
