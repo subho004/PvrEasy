@@ -2,6 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const TheatreScreen = () => {
     const navigation = useNavigation();
@@ -56,6 +57,7 @@ const TheatreScreen = () => {
             ],
         },
     ]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
@@ -98,7 +100,9 @@ const TheatreScreen = () => {
                             alignItems: "center",
                         }}>
                             {row.seats.map((seat, seatIndex) => (
-                                <Pressable style={[styles.seat]}>
+                                <Pressable
+                                    onPress={() => handleSeatPress(row.row, seat.seat)}
+                                    style={[styles.seat]}>
                                     <Text>{seat.seat}</Text>
                                 </Pressable>
                             ))}
@@ -109,6 +113,24 @@ const TheatreScreen = () => {
             )
         })
     }
+    const handleSeatPress = (row, seat) => {
+        // console.log("row", row);
+        // console.log("seat", seat);
+
+        const isSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat === seat);
+
+        if (isSelected) {
+            setSelectedSeats((prevState) =>
+                prevState.filter(
+                    (selectedSeat) =>
+                        selectedSeat.row !== row || selectedSeat.seat !== seat
+                )
+            );
+        } else {
+            setSelectedSeats((prevState) => [...prevState, { row, seat }])
+        }
+    };
+    console.log(selectedSeats);
     return (
         <View style={{
             flex: 1,
@@ -118,6 +140,44 @@ const TheatreScreen = () => {
             <Text style={{ marginTop: 10, textAlign: "center", fontSize: 15, color: "gray", marginBottom: 20 }}>CLASSIC (240)</Text>
 
             {renderSeats()}
+
+            <View style={{
+                backgroundColor: "#D8D8D8",
+                padding: 10,
+                marginTop: 25,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingLeft: 90,
+                gap: 30,
+            }}>
+                <View>
+                    <FontAwesome
+                        style={{ textAlign: "center", marginBottom: 4, }}
+                        name="square"
+                        size={24}
+                        color="#ffc40c"
+                    />
+                    <Text>Selected</Text>
+                </View>
+                <View>
+                    <FontAwesome
+                        style={{ textAlign: "center", marginBottom: 4 }}
+                        name="square"
+                        size={24}
+                        color="white"
+                    />
+                    <Text>Vacant</Text>
+                </View>
+                <View>
+                    <FontAwesome
+                        style={{ textAlign: "center", marginBottom: 4 }}
+                        name="square"
+                        size={24}
+                        color="gray"
+                    />
+                    <Text>Booked</Text>
+                </View>
+            </View>
         </View>
     )
 }
