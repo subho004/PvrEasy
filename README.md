@@ -13,6 +13,9 @@ PvrClone is a feature-rich movie ticket booking app, inspired by platforms like 
 - Admin dashboard to manage movies, showtimes, and bookings.
   
 ## Screenshots
+### Overall
+![movieapp](https://github.com/subho004/PvrEasy/assets/91646273/b9fa13df-23ea-46bb-aa14-2c0a66766314)
+
 #### Home Screen
 ![Screenshot_1692270424](https://github.com/subho004/PvrEasy/assets/91646273/0eacaba1-74c9-4660-adeb-e18288df67e8){:width="50%"}
 #### Filter Screen
